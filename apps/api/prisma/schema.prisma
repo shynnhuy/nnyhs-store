@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                            String    @id @default(auto()) @map("_id") @db.ObjectId
+  email                         String    @unique
+  isVerified                    Boolean   @default(false)
+  name                          String?
+  otp                           String
+  otpExpiryTime                 DateTime  @db.Date
+  password                      String
+  refreshToken                  String?
+  role                          UserRoles @default(customer)
+  enable2FA                     Boolean   @default(false)
+  twoFactorAuthenticationSecret String?
+  createdAt                     DateTime  @default(now()) @db.Date
+  updatedAt                     DateTime  @default(now()) @db.Date
+  Order                         Order[]
+
+  @@map("users")
+}
+
+model OTP {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
+  createdAt DateTime @db.Date
+  email     String
+  expiry    DateTime @db.Date
+  otp       String
+  updatedAt DateTime @db.Date
+
+  @@index([expiry], map: "expiry_1")
+  @@map("otps")
+}
+
+model Category {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime  @default(now()) @db.Date
+  name      String    @unique
+  code      String
+  image     String
+  updatedAt DateTime  @default(now()) @db.Date
+  Products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  categoryId  String      @db.ObjectId
+  category    Category    @relation(fields: [categoryId], references: [id])
+  description String
+  image       String
+  name        String
+  price       Float
+  orderItems  OrderItem[]
+  couponIds   String[]    @db.ObjectId
+  coupons     Coupon[]    @relation(fields: [couponIds], references: [id])
+  createdAt   DateTime    @default(now()) @db.Date
+  updatedAt   DateTime    @default(now()) @db.Date
+
+  @@map("products")
+}
+
+model Order {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime    @default(now()) @db.Date
+  customerId  String      @db.ObjectId
+  customer    User        @relation(fields: [customerId], references: [id])
+  orderItems  OrderItem[]
+  status      String
+  totalAmount Float
+  updatedAt   DateTime    @default(now()) @db.Date
+  couponId    String?     @db.ObjectId
+  Coupon      Coupon?     @relation(fields: [couponId], references: [id])
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now()) @db.Date
+  orderId   String   @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  updatedAt DateTime @default(now()) @db.Date
+
+  @@map("orderItems")
+}
+
+model Coupon {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  code           String
+  discountAmount Float
+  discountType   DiscountType
+  expiryDate     DateTime     @db.Date
+  isActive       Boolean      @default(true)
+  uses           Int          @default(0)
+  limit          Int?
+  allProducts    Boolean      @default(false)
+  productIds     String[]     @db.ObjectId
+  products       Product[]    @relation(fields: [productIds], references: [id])
+  orders         Order[]
+  createdAt      DateTime     @default(now()) @db.Date
+  updatedAt      DateTime     @default(now()) @db.Date
+
+  @@map("coupons")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum UserRoles {
+  admin
+  customer
+}
