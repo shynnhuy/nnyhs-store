@@ -33,8 +33,6 @@ import { TwoFactorService } from './two-factor/two-factor.service';
         name: Users.name,
         schema: UserSchema,
       },
-    ]),
-    MongooseModule.forFeature([
       {
         name: OTP.name,
         schema: OTPSchema,

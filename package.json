@@ -19,13 +19,6 @@
     "prettier": "^3.2.5",
     "turbo": "latest"
   },
-  "lint-staged": {
-    "*.ts": [
-      "yarn lint",
-      "yarn format",
-      "git add ."
-    ]
-  },
   "engines": {
     "node": ">=18"
   },
