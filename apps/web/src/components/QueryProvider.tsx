@@ -8,3 +8,11 @@ export const QueryProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 };
+
+export const createWrapper = () => {
+  // ✅ creates a new QueryClient for each test
+  const queryClient = new QueryClient();
+  return ({ children }: any) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+};
