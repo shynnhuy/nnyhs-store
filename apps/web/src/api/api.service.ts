@@ -1,16 +1,10 @@
+import { config } from "@/utils/config";
 import axios, {
   Axios,
-  AxiosDefaults,
-  AxiosError,
   AxiosInstance,
-  AxiosInterceptorManager,
   AxiosRequestConfig,
   AxiosResponse,
-  InternalAxiosRequestConfig,
 } from "axios";
-import { config } from "@/utils/config";
-import { authTokenInterceptor } from "@/utils/jwt";
-import { requestRefresh } from "./auth";
 import { TResponse } from "./api.type";
 
 export const api = axios.create({

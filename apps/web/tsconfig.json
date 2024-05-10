@@ -17,8 +17,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "postcss.config.js",
     "jest.setup.ts",
-    "jest.config.ts"
+    "jest.config.ts",
+    "coverage/*"
   ],
   "exclude": ["node_modules"]
 }

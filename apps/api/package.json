@@ -109,12 +109,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "yarn lint",
-      "yarn format",
-      "git add ."
-    ]
   }
 }
