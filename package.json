@@ -2,7 +2,7 @@
   "name": "nnyhs-store",
   "private": true,
   "scripts": {
-    "postinstall": "husky install",
+    "postinstall": "husky init",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",

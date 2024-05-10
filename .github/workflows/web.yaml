@@ -2,11 +2,11 @@ name: web-ci
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - "apps/web/**"
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - "apps/web/**"
 
