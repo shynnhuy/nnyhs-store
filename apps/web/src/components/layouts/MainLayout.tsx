@@ -1,5 +1,5 @@
 "use client";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layouts/header";
 
 import { AuthPopup } from "@/components/auth/AuthPopup";
 import { Fragment } from "react";

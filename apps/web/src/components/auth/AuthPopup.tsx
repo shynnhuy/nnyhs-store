@@ -5,6 +5,7 @@ import { kanit } from "@/utils/fonts";
 import { Button, Form, Input, Modal, notification } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import axios from "axios";
+import { cookies } from "next/headers";
 import styled from "styled-components";
 import { create } from "zustand";
 
@@ -62,8 +63,8 @@ export const AuthPopup = () => {
 
   const onFinish = (state: FormState) => {
     mutate(state, {
-      onSuccess: async (data) => {
-        await axios.post("/api/auth", data.result);
+      onSuccess: async (response) => {
+        await axios.post("/api/auth", response);
         notification.success({
           message: "Success",
           description: "Logged in successfully",
@@ -117,7 +118,12 @@ export const AuthPopup = () => {
               size="large"
             />
           </FormItem>
-          <Button className="submit" htmlType="submit" size="large">
+          <Button
+            className="submit"
+            htmlType="submit"
+            size="large"
+            type="primary"
+          >
             Login
           </Button>
 

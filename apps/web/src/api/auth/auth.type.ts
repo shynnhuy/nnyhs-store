@@ -24,3 +24,16 @@ export type TAuthResponse = {
   accessToken: string;
   refreshToken: string;
 };
+
+export type TUser = {
+  id: string;
+  email: string;
+  isVerified: boolean;
+  name: string;
+  otp: string;
+  otpExpiryTime: string;
+  refreshToken: string;
+  role: string;
+  enable2FA: boolean;
+  twoFactorAuthenticationSecret: string;
+};

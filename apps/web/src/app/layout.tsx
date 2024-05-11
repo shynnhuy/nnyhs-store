@@ -4,6 +4,7 @@ import { inter } from "@/utils/fonts";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { QueryProvider } from "@/components/QueryProvider";
 import MainLayout from "@/components/layouts/MainLayout";
+import { ConfigProvider } from "antd";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,11 +19,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AntdRegistry>
-        <QueryProvider>
-          <body className={inter.className}>
-            <MainLayout>{children}</MainLayout>
-          </body>
-        </QueryProvider>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "rgb(233, 69, 96)",
+            },
+          }}
+        >
+          <QueryProvider>
+            <body className={inter.className}>
+              <MainLayout>{children}</MainLayout>
+            </body>
+          </QueryProvider>
+        </ConfigProvider>
       </AntdRegistry>
     </html>
   );

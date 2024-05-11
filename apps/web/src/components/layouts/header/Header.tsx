@@ -5,7 +5,7 @@ import { kanit } from "@/utils/fonts";
 import SearchField from "./SearchField";
 import { Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useAuthPopup } from "../auth/AuthPopup";
+import { useAuthPopup } from "../../auth/AuthPopup";
 
 export const Header = () => {
   const { openModal } = useAuthPopup();
