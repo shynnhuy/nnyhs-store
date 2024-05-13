@@ -60,7 +60,7 @@ export const useAuthPopup = create<AuthPopupState>((set) => ({
 export const AuthPopup = () => {
   const [form] = Form.useForm<FormState>();
   const { open, closeModal } = useAuthPopup();
-  const { mutate } = useLoginMutation();
+  const { mutate, isPending } = useLoginMutation();
 
   const onFinish = (state: FormState) => {
     mutate(state, {
@@ -119,7 +119,7 @@ export const AuthPopup = () => {
               size="large"
             />
           </FormItem>
-          <Button className="submit" type="submit">
+          <Button loading={isPending} className="submit" type="submit">
             Login
           </Button>
 
