@@ -2,7 +2,8 @@
 import { useLoginMutation } from "@/mutations/auth";
 import clsx from "@/utils/clsx";
 import { kanit } from "@/utils/fonts";
-import { Button, Form, Input, Modal, notification } from "antd";
+import { Button } from "@ui/components";
+import { Form, Input, Modal, notification } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import axios from "axios";
 import { cookies } from "next/headers";
@@ -118,12 +119,7 @@ export const AuthPopup = () => {
               size="large"
             />
           </FormItem>
-          <Button
-            className="submit"
-            htmlType="submit"
-            size="large"
-            type="primary"
-          >
+          <Button className="submit" type="submit">
             Login
           </Button>
 

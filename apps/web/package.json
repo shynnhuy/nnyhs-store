@@ -12,9 +12,9 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
+    "@repo/ui": "workspace:*",
     "@ant-design/icons": "^5.3.7",
     "@ant-design/nextjs-registry": "^1.0.0",
-    "@repo/ui": "*",
     "@stripe/stripe-js": "^3.3.0",
     "@tanstack/react-query": "^5.32.0",
     "antd": "^5.16.4",
@@ -32,6 +32,8 @@
     "@next/eslint-plugin-next": "^14.1.1",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
+    "@repo/ui/tailwind.config": "workspace:*",
+    "@repo/ui/postcss.config": "workspace:*",
     "@tanstack/eslint-plugin-query": "^5.32.1",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",

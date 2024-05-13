@@ -8,8 +8,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@ui/*": ["../../packages/ui/src/*"]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "incremental": true,
+    "resolveJsonModule": true
   },
   "include": [
     "next-env.d.ts",
@@ -20,7 +24,8 @@
     "postcss.config.js",
     "jest.setup.ts",
     "jest.config.ts",
-    "coverage/*"
+    "coverage/*",
+    "src"
   ],
   "exclude": ["node_modules"]
 }

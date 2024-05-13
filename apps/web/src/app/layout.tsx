@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@repo/ui/global.css";
 import type { Metadata } from "next";
 import { inter } from "@/utils/fonts";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
