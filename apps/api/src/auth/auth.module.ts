@@ -14,6 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { OTP, OTPSchema } from 'src/shared/schema/otps';
 import { TwoFactorController } from './two-factor/two-factor.controller';
 import { TwoFactorService } from './two-factor/two-factor.service';
+import { GoogleStrategy } from 'src/shared/strategies/google.strategy';
 
 @Module({
   controllers: [AuthController, TwoFactorController],
@@ -25,6 +26,7 @@ import { TwoFactorService } from './two-factor/two-factor.service';
     LocalStrategy,
     AccessTokenStrategy,
     RefreshTokenStrategy,
+    GoogleStrategy,
     TwoFactorService,
   ],
   imports: [

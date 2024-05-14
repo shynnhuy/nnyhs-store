@@ -2,10 +2,15 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthProvider } from '@prisma/client';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private prisma: PrismaService,
+  ) {
     super({
       clientID: configService.get('google.clientId'),
       clientSecret: configService.get('google.clientSecret'),
@@ -28,6 +33,18 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       accessToken,
       refreshToken,
     };
-    done(null, user);
+
+    const _user = await this.prisma.user.upsert({
+      where: { email: user.email },
+      create: {
+        email: user.email,
+        otp: '',
+        otpExpiryTime: new Date(),
+        password: 'random_password',
+        provider: [AuthProvider.GOOGLE],
+      },
+      update: {},
+    });
+    done(null, _user);
   }
 }

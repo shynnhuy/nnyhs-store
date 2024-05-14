@@ -1,4 +1,5 @@
 "use client";
+import { APIService } from "@/api";
 import { useLoginMutation } from "@/mutations/auth";
 import clsx from "@/utils/clsx";
 import { kanit } from "@/utils/fonts";
@@ -6,7 +7,6 @@ import { Button } from "@ui/components";
 import { Form, Input, Modal, notification } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import axios from "axios";
-import { cookies } from "next/headers";
 import styled from "styled-components";
 import { create } from "zustand";
 
@@ -62,10 +62,14 @@ export const AuthPopup = () => {
   const { open, closeModal } = useAuthPopup();
   const { mutate, isPending } = useLoginMutation();
 
+  const loginWithGoogle = async () => {
+    await APIService.get("/auth/google");
+  };
+
   const onFinish = (state: FormState) => {
     mutate(state, {
       onSuccess: async (response) => {
-        await axios.post("/api/auth", response);
+        // await axios.post("/api/auth", response);
         notification.success({
           message: "Success",
           description: "Logged in successfully",
@@ -122,6 +126,14 @@ export const AuthPopup = () => {
           <Button loading={isPending} className="submit" type="submit">
             Login
           </Button>
+          <a
+            target="_blank"
+            href="http://localhost:3100/api/v1/auth/google"
+            className="mt-4"
+            onClick={loginWithGoogle}
+          >
+            Login with Google
+          </a>
 
           <div className="text-center text-muted-foreground text-[12px] font-semibold mt-[19px] mb-[19px]">
             Don&apos;t have an account?{" "}

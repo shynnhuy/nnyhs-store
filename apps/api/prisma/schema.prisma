@@ -8,19 +8,20 @@ datasource db {
 }
 
 model User {
-  id                            String    @id @default(auto()) @map("_id") @db.ObjectId
-  email                         String    @unique
-  isVerified                    Boolean   @default(false)
+  id                            String         @id @default(auto()) @map("_id") @db.ObjectId
+  email                         String         @unique
+  isVerified                    Boolean        @default(false)
   name                          String?
   otp                           String
-  otpExpiryTime                 DateTime  @db.Date
+  otpExpiryTime                 DateTime       @db.Date
   password                      String
   refreshToken                  String?
-  role                          UserRoles @default(customer)
-  enable2FA                     Boolean   @default(false)
+  role                          UserRoles      @default(customer)
+  enable2FA                     Boolean        @default(false)
   twoFactorAuthenticationSecret String?
-  createdAt                     DateTime  @default(now()) @db.Date
-  updatedAt                     DateTime  @default(now()) @db.Date
+  provider                      AuthProvider[] @default([EMAIL])
+  createdAt                     DateTime       @default(now()) @db.Date
+  updatedAt                     DateTime       @default(now()) @db.Date
   Order                         Order[]
 
   @@map("users")
@@ -28,7 +29,6 @@ model User {
 
 model OTP {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int      @map("__v")
   createdAt DateTime @db.Date
   email     String
   expiry    DateTime @db.Date
@@ -123,4 +123,10 @@ enum DiscountType {
 enum UserRoles {
   admin
   customer
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+  FACEBOOK
 }

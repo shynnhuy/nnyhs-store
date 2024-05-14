@@ -4,6 +4,7 @@ import { Header } from "@/components/layouts/header";
 import { AuthPopup } from "@/components/auth/AuthPopup";
 import { Fragment } from "react";
 import { notification } from "antd";
+import { SessionProvider } from "next-auth/react";
 
 notification.config({
   placement: "bottomRight",
@@ -14,9 +15,11 @@ notification.config({
 const MainLayout = ({ children }: any) => {
   return (
     <Fragment>
-      <Header />
-      {children}
-      <AuthPopup />
+      <SessionProvider>
+        <Header />
+        {children}
+        <AuthPopup />
+      </SessionProvider>
     </Fragment>
   );
 };

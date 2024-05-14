@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestWithUser } from './types/request-with-user';
+import { GoogleOauthGuard } from 'src/shared/guards/google.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -56,5 +57,15 @@ export class AuthController {
   @Get('/refresh')
   refreshToken(@Req() req: RequestWithUser) {
     return this.authService.refreshTokens(req);
+  }
+
+  @Get('/google')
+  @UseGuards(GoogleOauthGuard)
+  async auth() {}
+
+  @Get('/google-redirect')
+  @UseGuards(GoogleOauthGuard)
+  async googleAuthCallback(@Req() req) {
+    return this.authService.login(req);
   }
 }
