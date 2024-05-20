@@ -14,7 +14,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { OTP, OTPSchema } from 'src/shared/schema/otps';
 import { TwoFactorController } from './two-factor/two-factor.controller';
 import { TwoFactorService } from './two-factor/two-factor.service';
-import { GoogleStrategy } from 'src/shared/strategies/google.strategy';
 
 @Module({
   controllers: [AuthController, TwoFactorController],
@@ -26,7 +25,6 @@ import { GoogleStrategy } from 'src/shared/strategies/google.strategy';
     LocalStrategy,
     AccessTokenStrategy,
     RefreshTokenStrategy,
-    GoogleStrategy,
     TwoFactorService,
   ],
   imports: [
@@ -51,6 +49,19 @@ import { GoogleStrategy } from 'src/shared/strategies/google.strategy';
         },
       }),
     }),
+  ],
+  exports: [
+    AuthService,
+    MongooseModule.forFeature([
+      {
+        name: Users.name,
+        schema: UserSchema,
+      },
+      {
+        name: OTP.name,
+        schema: OTPSchema,
+      },
+    ]),
   ],
 })
 export class AuthModule {}

@@ -37,3 +37,11 @@ export type TUser = {
   enable2FA: boolean;
   twoFactorAuthenticationSecret: string;
 };
+
+export type TLoginResponse = {
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
+  user: TUser;
+};

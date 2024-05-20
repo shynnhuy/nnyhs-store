@@ -46,16 +46,10 @@ export class AuthService {
 
   async login(request: RequestWithUser) {
     const { user } = request;
-    const accessTokenCookie = this.getCookieWithJwtAccessToken(user.id);
-    const { cookie: refreshTokenCookie, token: refreshToken } =
-      this.getCookieWithJwtRefreshToken(user.id);
 
-    await this.userService.updateRefreshToken(user.id, refreshToken);
+    const tokens = await this.getTokens(user.id, user.email);
 
-    request.res.setHeader('Set-Cookie', [
-      accessTokenCookie,
-      refreshTokenCookie,
-    ]);
+    await this.userService.updateRefreshToken(user.id, tokens.refreshToken);
 
     return user.enable2FA
       ? {
@@ -64,7 +58,7 @@ export class AuthService {
         }
       : {
           success: true,
-          result: user,
+          result: { tokens, user },
           message: 'Login successfully',
         };
   }
@@ -248,28 +242,25 @@ export class AuthService {
     });
   }
 
-  async getTokens(userId: string, email: string) {
+  async getTokens(
+    userId: string,
+    email: string,
+    isSecondFactorAuthenticated = false,
+  ) {
+    const payload: TokenPayload = {
+      userId,
+      email,
+      isSecondFactorAuthenticated,
+    };
     const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(
-        {
-          sub: userId,
-          email,
-        },
-        {
-          secret: this.configService.get('jwt.accessTokenSecret'),
-          expiresIn: '15m',
-        },
-      ),
-      this.jwtService.signAsync(
-        {
-          sub: userId,
-          email,
-        },
-        {
-          secret: this.configService.get('jwt.refreshTokenSecret'),
-          expiresIn: '7d',
-        },
-      ),
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get('jwt.accessTokenSecret'),
+        expiresIn: `${this.configService.get('jwt.accessTokenExpirationTime')}s`,
+      }),
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get('jwt.refreshTokenSecret'),
+        expiresIn: `${this.configService.get('jwt.refreshTokenExpirationTime')}s`,
+      }),
     ]);
 
     return {
@@ -285,12 +276,12 @@ export class AuthService {
   }
 
   async verifyPassword(plainTextPassword: string, hashedPassword: string) {
-    const isAuthenicated = await bcrypt.compare(
+    const isAuthenticated = await bcrypt.compare(
       plainTextPassword,
       hashedPassword,
     );
 
-    if (!isAuthenicated) {
+    if (!isAuthenticated) {
       throw new BadRequestException('Invalid email or password');
     }
   }
@@ -329,5 +320,19 @@ export class AuthService {
       'Authentication=; HttpOnly; Path=/; Max-Age=0',
       'Refresh=; HttpOnly; Path=/; Max-Age=0',
     ];
+  }
+
+  getCookieTokens(userId: string, isSecondFactorAuthenticated = false) {
+    const payload: TokenPayload = { userId, isSecondFactorAuthenticated };
+    const accessToken = this.jwtService.sign(payload, {
+      secret: this.configService.get('jwt.accessTokenSecret'),
+      expiresIn: `${this.configService.get('jwt.accessTokenExpirationTime')}s`,
+    });
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: this.configService.get('jwt.refreshTokenSecret'),
+      expiresIn: `${this.configService.get('jwt.refreshTokenExpirationTime')}s`,
+    });
+
+    return { accessToken, refreshToken };
   }
 }

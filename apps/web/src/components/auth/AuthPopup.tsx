@@ -1,14 +1,16 @@
 "use client";
-import { APIService } from "@/api";
 import { useLoginMutation } from "@/mutations/auth";
 import clsx from "@/utils/clsx";
 import { kanit } from "@/utils/fonts";
-import { Button } from "@ui/components";
+import { Button, buttonVariants } from "@ui/components";
+import { cn } from "@ui/lib/utils";
 import { Form, Input, Modal, notification } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import axios from "axios";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import styled from "styled-components";
 import { create } from "zustand";
+import { Icons } from "../Icons";
 
 type FormState = {
   email: string;
@@ -62,13 +64,13 @@ export const AuthPopup = () => {
   const { open, closeModal } = useAuthPopup();
   const { mutate, isPending } = useLoginMutation();
 
-  const loginWithGoogle = async () => {
-    await APIService.get("/auth/google");
-  };
+  // const loginWithGoogle = async () => {
+  //   await APIService.get("/auth/google");
+  // };
 
   const onFinish = (state: FormState) => {
     mutate(state, {
-      onSuccess: async (response) => {
+      onSuccess: async () => {
         // await axios.post("/api/auth", response);
         notification.success({
           message: "Success",
@@ -126,14 +128,28 @@ export const AuthPopup = () => {
           <Button loading={isPending} className="submit" type="submit">
             Login
           </Button>
-          <a
+          <div className="relative mt-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
+          <Link
+            className={cn(buttonVariants({ variant: "destructive" }), "mt-4")}
             target="_blank"
             href="http://localhost:3100/api/v1/auth/google"
-            className="mt-4"
-            onClick={loginWithGoogle}
           >
-            Login with Google
-          </a>
+            {isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Icons.Google className="mr-2 h-4 w-4" />
+            )}{" "}
+            Google
+          </Link>
 
           <div className="text-center text-muted-foreground text-[12px] font-semibold mt-[19px] mb-[19px]">
             Don&apos;t have an account?{" "}

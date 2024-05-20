@@ -10,14 +10,13 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/shared/guards/access-token.guard';
 import { LocalGuard } from 'src/shared/guards/local.guard';
 import { RefreshTokenGuard } from 'src/shared/guards/refresh-token.guard';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
-import { ApiTags } from '@nestjs/swagger';
 import { RequestWithUser } from './types/request-with-user';
-import { GoogleOauthGuard } from 'src/shared/guards/google.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -57,15 +56,5 @@ export class AuthController {
   @Get('/refresh')
   refreshToken(@Req() req: RequestWithUser) {
     return this.authService.refreshTokens(req);
-  }
-
-  @Get('/google')
-  @UseGuards(GoogleOauthGuard)
-  async auth() {}
-
-  @Get('/google-redirect')
-  @UseGuards(GoogleOauthGuard)
-  async googleAuthCallback(@Req() req) {
-    return this.authService.login(req);
   }
 }

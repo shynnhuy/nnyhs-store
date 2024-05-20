@@ -55,7 +55,7 @@ const transformAppRouterCookies = (
 const stringify = (value: string = "") => {
   try {
     const result = JSON.stringify(value);
-    return /^[\{\[]/.test(result) ? result : value;
+    return /^[{[]/.test(result) ? result : value;
   } catch (e) {
     return value;
   }
@@ -186,7 +186,7 @@ export const hasCookie = (key: string, options?: OptionsType): boolean => {
   if (!key) return false;
 
   const cookie = getCookies(options);
-  return cookie.hasOwnProperty(key);
+  return Object.prototype.hasOwnProperty.call(cookie, key);
 };
 
 export * from "./types";

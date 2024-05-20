@@ -1,14 +1,17 @@
 import { APIService, TAuthResponse } from "..";
 import {
   TLoginParams,
+  TLoginResponse,
   TRegisterParams,
-  TUser,
   TVerifyEmail,
 } from "./auth.type";
 
 export const AuthAPI = {
   login: async (loginParams: TLoginParams) => {
-    const res = await APIService.post<TUser>("/auth/login", loginParams);
+    const res = await APIService.post<TLoginResponse>(
+      "/auth/login",
+      loginParams
+    );
     return res;
   },
   register: async (registerParams: TRegisterParams) => {
