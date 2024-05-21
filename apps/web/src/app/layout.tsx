@@ -1,10 +1,12 @@
 import "@repo/ui/global.css";
-import type { Metadata } from "next";
+import { QueryProvider } from "@/components/QueryProvider";
 import { inter } from "@/utils/fonts";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { QueryProvider } from "@/components/QueryProvider";
-import MainLayout from "@/components/layouts/MainLayout";
 import { ConfigProvider } from "antd";
+import type { Metadata } from "next";
+import { Header } from "./layouts/header";
+import { AuthPopup } from "@/components/auth/AuthPopup";
+import { AuthPopupStoreProvider } from "@/provider/auth-popup-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,9 +29,13 @@ export default function RootLayout({
           }}
         >
           <QueryProvider>
-            <body className={inter.className}>
-              <MainLayout>{children}</MainLayout>
-            </body>
+            <AuthPopupStoreProvider>
+              <body className={inter.className}>
+                <Header />
+                {children}
+                <AuthPopup />
+              </body>
+            </AuthPopupStoreProvider>
           </QueryProvider>
         </ConfigProvider>
       </AntdRegistry>

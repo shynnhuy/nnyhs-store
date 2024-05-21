@@ -9,8 +9,8 @@ import FormItem from "antd/es/form/FormItem";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import styled from "styled-components";
-import { create } from "zustand";
 import { Icons } from "../Icons";
+import { useAuthPopupStore } from "@/provider/auth-popup-provider";
 
 type FormState = {
   email: string;
@@ -47,21 +47,9 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-type AuthPopupState = {
-  open: boolean;
-  openModal: () => void;
-  closeModal: () => void;
-};
-
-export const useAuthPopup = create<AuthPopupState>((set) => ({
-  open: false,
-  openModal: () => set({ open: true }),
-  closeModal: () => set({ open: false }),
-}));
-
 export const AuthPopup = () => {
   const [form] = Form.useForm<FormState>();
-  const { open, closeModal } = useAuthPopup();
+  const { open, closeModal } = useAuthPopupStore((state) => state);
   const { mutate, isPending } = useLoginMutation();
 
   // const loginWithGoogle = async () => {

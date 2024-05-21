@@ -1,14 +1,13 @@
-"use client";
 import clsx from "@/utils/clsx";
-import { StyledHeader } from "./styled";
 import { kanit } from "@/utils/fonts";
 import SearchField from "./SearchField";
-import { Button } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { useAuthPopup } from "../../auth/AuthPopup";
+import { StyledHeader } from "./styled";
+import Nav from "./Nav/Nav";
+import isAuth from "@/lib/is-auth";
 
 export const Header = () => {
-  const { openModal } = useAuthPopup();
+  const isLoggedIn = isAuth();
+
   return (
     <StyledHeader>
       <div className="container">
@@ -21,12 +20,7 @@ export const Header = () => {
         </div>
 
         <div className="actions">
-          <Button
-            className="login-btn"
-            shape="circle"
-            icon={<UserOutlined style={{ fontSize: "18px" }} />}
-            onClick={openModal}
-          />
+          <Nav isAuth={isLoggedIn} />
         </div>
       </div>
     </StyledHeader>
