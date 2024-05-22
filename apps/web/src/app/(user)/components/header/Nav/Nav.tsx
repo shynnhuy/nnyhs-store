@@ -1,7 +1,7 @@
 "use client";
 import { useStore } from "@/store";
 import { Badge, Button, Space } from "antd";
-import { ShoppingBag, User } from "lucide-react";
+import { KeyRound, ShoppingBag } from "lucide-react";
 import UserMenu from "./UserMenu";
 
 const Nav = () => {
@@ -13,7 +13,7 @@ const Nav = () => {
         <Button
           className="login-btn"
           type="default"
-          icon={<User />}
+          icon={<KeyRound />}
           onClick={openModal}
         />
       ) : (

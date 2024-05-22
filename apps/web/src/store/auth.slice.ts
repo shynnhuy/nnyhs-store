@@ -1,9 +1,10 @@
-import { TTokens, TUser } from "@/api";
+import { ERole, TTokens, TUser } from "@/api";
 import { StateCreator } from "zustand";
 
 type AuthState = {
   open: boolean;
   isAuth: boolean;
+  isAdmin: boolean;
   user?: TUser;
   tokens?: TTokens;
 };
@@ -20,6 +21,7 @@ export type AuthSlice = AuthState & AuthActions;
 
 const initialState: AuthState = {
   isAuth: false,
+  isAdmin: false,
   open: false,
 };
 
@@ -32,7 +34,8 @@ export const createAuthSlice: StateCreator<
   ...initialState,
   openModal: () => set({ open: true }),
   closeModal: () => set({ open: false }),
-  loggedIn: ({ user, tokens }) => set({ isAuth: true, user, tokens }),
+  loggedIn: ({ user, tokens }) =>
+    set({ isAuth: true, isAdmin: user.role === ERole.ADMIN, user, tokens }),
   logOut: () => set({ isAuth: false, user: undefined, tokens: undefined }),
   setTokens: (tokens) => set({ tokens }),
 });

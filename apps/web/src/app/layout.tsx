@@ -1,14 +1,11 @@
-import "@repo/ui/global.css";
 import { QueryProvider } from "@/components/QueryProvider";
-import RefreshTokenJob from "@/components/RefreshTokenJob";
-import { AuthPopup } from "@/components/auth/AuthPopup";
+import StyledComponentsRegistry from "@/lib/registry";
+import AppProvider from "@/provider/AppProvider";
 import { inter } from "@/utils/fonts";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import "@repo/ui/global.css";
 import { ConfigProvider } from "antd";
 import type { Metadata } from "next";
-import { Header } from "@/components/layouts/header";
-import AppProvider from "@/provider/AppProvider";
-import StyledComponentsRegistry from "@/lib/registry";
 
 export const metadata: Metadata = {
   title: "NnyhS Store - Home page",
@@ -33,12 +30,7 @@ export default function RootLayout({
           <QueryProvider>
             <AppProvider>
               <StyledComponentsRegistry>
-                <body className={inter.className}>
-                  <Header />
-                  {children}
-                  <AuthPopup />
-                  <RefreshTokenJob />
-                </body>
+                <body className={inter.className}>{children}</body>
               </StyledComponentsRegistry>
             </AppProvider>
           </QueryProvider>

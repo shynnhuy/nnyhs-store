@@ -12,11 +12,19 @@ import {
   DropdownMenuTrigger,
 } from "@ui/components/";
 import { Button, notification } from "antd";
-import { CreditCard, Loader2, LogOut, Settings, User } from "lucide-react";
+import {
+  CreditCard,
+  LayoutDashboard,
+  Loader2,
+  LogOut,
+  Settings,
+  User,
+} from "lucide-react";
 import Link from "next/link";
+import { Fragment } from "react";
 
 const UserMenu = () => {
-  const { logOut } = useStore();
+  const { isAdmin, logOut } = useStore();
   const { mutate: logout, isPending } = useMutation({
     mutationFn: AuthAPI.logout,
     onSuccess: () => {
@@ -54,6 +62,21 @@ const UserMenu = () => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
+
+        {isAdmin ? (
+          <Fragment>
+            <DropdownMenuGroup>
+              <Link href="/admin">
+                <DropdownMenuItem>
+                  <LayoutDashboard className="mr-2 h-4 w-4" />
+                  <span>Admin</span>
+                  <DropdownMenuShortcut>⇧⌘A</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </Link>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+          </Fragment>
+        ) : null}
 
         <DropdownMenuItem disabled={isPending} onClick={() => logout()}>
           {isPending ? (
