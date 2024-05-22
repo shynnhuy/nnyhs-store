@@ -1,12 +1,22 @@
-import { APIService, TAuthResponse } from "..";
+import axios from "axios";
+import { APIService } from "..";
+import { TResponse } from "../api.type";
 import {
   TLoginParams,
   TLoginResponse,
   TRegisterParams,
+  TTokens,
   TVerifyEmail,
 } from "./auth.type";
 
 export const AuthAPI = {
+  auth: async (loginParams: TLoginParams) => {
+    const res = await axios.post<TResponse<TLoginResponse>>(
+      "/api/auth/login",
+      loginParams
+    );
+    return res;
+  },
   login: async (loginParams: TLoginParams) => {
     const res = await APIService.post<TLoginResponse>(
       "/auth/login",
@@ -23,18 +33,10 @@ export const AuthAPI = {
     );
   },
   resendOTP: async () => {},
-  refreshToken: async () => {
-    return APIService.get<TAuthResponse>("/auth/refresh");
-  },
+  refreshToken: async () => APIService.get<TTokens>("/auth/refresh"),
+  refreshClientToken: async (params: TTokens) =>
+    axios.post("/api/auth/refresh", params),
   logout: async () => {
-    return APIService.delete("/logout");
+    return axios.post("/api/auth/logout");
   },
-};
-
-export const requestRefresh = async () => {
-  const { data } = await AuthAPI.refreshToken();
-  return {
-    accessToken: data.result?.accessToken,
-    refreshToken: data.result?.refreshToken,
-  };
 };

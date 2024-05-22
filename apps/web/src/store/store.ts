@@ -1,14 +1,16 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { PopupSlice, createAuthPopupSlice } from "./authPopup-slice";
+import { AuthSlice, createAuthSlice } from "./auth.slice";
 
-export type Store = PopupSlice;
+export type Store = AuthSlice;
 
 export const useStore = create<Store>()(
   devtools(
     persist(
-      immer((...a) => ({ ...createAuthPopupSlice(...a) })),
+      immer((...a) => ({
+        ...createAuthSlice(...a),
+      })),
       {
         name: "local-storage",
       }

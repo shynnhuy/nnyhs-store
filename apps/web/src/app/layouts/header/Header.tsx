@@ -1,13 +1,10 @@
 import clsx from "@/utils/clsx";
 import { kanit } from "@/utils/fonts";
+import Nav from "./Nav/Nav";
 import SearchField from "./SearchField";
 import { StyledHeader } from "./styled";
-import Nav from "./Nav/Nav";
-import isAuth from "@/lib/is-auth";
 
 export const Header = () => {
-  const isLoggedIn = isAuth();
-
   return (
     <StyledHeader>
       <div className="container">
@@ -20,7 +17,7 @@ export const Header = () => {
         </div>
 
         <div className="actions">
-          <Nav isAuth={isLoggedIn} />
+          <Nav />
         </div>
       </div>
     </StyledHeader>

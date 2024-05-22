@@ -51,6 +51,15 @@ export class AuthService {
 
     await this.userService.updateRefreshToken(user.id, tokens.refreshToken);
 
+    request.res.setHeader('Set-Cookie', [
+      `Authentication=${tokens.accessToken}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+        'jwt.accessTokenExpirationTime',
+      )}`,
+      `Refresh=${tokens.refreshToken}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+        'jwt.refreshTokenExpirationTime',
+      )}`,
+    ]);
+
     return user.enable2FA
       ? {
           success: true,
@@ -216,19 +225,16 @@ export class AuthService {
   }
 
   async refreshTokens(req: RequestWithUser) {
-    const { id } = req.user;
+    const user = req.user;
 
-    // const tokens = await this.getTokens(user.id, user.email);
-    // await this.updateRefreshToken(user.id, tokens.refreshToken);
+    const tokens = await this.getTokens(user.id, user.email);
 
-    const accessTokenCookie = this.getCookieWithJwtAccessToken(id);
-
-    req.res.setHeader('Set-Cookie', accessTokenCookie);
+    await this.userService.updateRefreshToken(user.id, tokens.refreshToken);
 
     return {
       success: true,
       message: 'Refresh token generated successfully',
-      result: req.user,
+      result: tokens,
     };
   }
 

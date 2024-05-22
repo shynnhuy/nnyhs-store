@@ -17,6 +17,7 @@ import { ProductsModule } from './products/products.module';
 import { HttpExceptionFilter } from './shared/httpExceptionFilter';
 import { UsersModule } from './users/users.module';
 import { GoogleOauthModule } from './google-oauth/google-oauth.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { GoogleOauthModule } from './google-oauth/google-oauth.module';
     PrismaModule,
     ImageModule,
     GoogleOauthModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [

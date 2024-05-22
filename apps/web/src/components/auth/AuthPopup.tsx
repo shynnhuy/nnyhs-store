@@ -1,5 +1,6 @@
 "use client";
 import { useLoginMutation } from "@/mutations/auth";
+import { useStore } from "@/store";
 import clsx from "@/utils/clsx";
 import { kanit } from "@/utils/fonts";
 import { Button, buttonVariants } from "@ui/components";
@@ -10,7 +11,6 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import styled from "styled-components";
 import { Icons } from "../Icons";
-import { useAuthPopupStore } from "@/provider/auth-popup-provider";
 
 type FormState = {
   email: string;
@@ -49,7 +49,7 @@ const StyledModal = styled(Modal)`
 
 export const AuthPopup = () => {
   const [form] = Form.useForm<FormState>();
-  const { open, closeModal } = useAuthPopupStore((state) => state);
+  const { open, closeModal, loggedIn } = useStore();
   const { mutate, isPending } = useLoginMutation();
 
   // const loginWithGoogle = async () => {
@@ -58,12 +58,13 @@ export const AuthPopup = () => {
 
   const onFinish = (state: FormState) => {
     mutate(state, {
-      onSuccess: async () => {
-        // await axios.post("/api/auth", response);
+      onSuccess: async ({ data }) => {
+        loggedIn(data.result);
         notification.success({
           message: "Success",
           description: "Logged in successfully",
         });
+        closeModal();
       },
       onError: (error) => {
         notification.error({

@@ -20,7 +20,7 @@ export type TVerifyEmail = {
   email: string;
 };
 
-export type TAuthResponse = {
+export type TTokens = {
   accessToken: string;
   refreshToken: string;
 };

@@ -1,3 +1,4 @@
+"use client";
 import { ProductAPI } from "@/api/products";
 import { useQuery } from "@tanstack/react-query";
 
