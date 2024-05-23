@@ -11,3 +11,8 @@ export class CreateCategoryDto {
   @IsString()
   image: string;
 }
+
+export class QueryCategoryDto {
+  limit: number;
+  page: number;
+}

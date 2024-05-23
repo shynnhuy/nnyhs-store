@@ -1,6 +1,8 @@
 "use client";
+import { ModeToggle } from "@/components/mode-toggle";
 import { useStore } from "@/store";
-import { Badge, Button, Space } from "antd";
+import { Button } from "@ui/components";
+import { Space } from "antd";
 import { KeyRound, ShoppingBag } from "lucide-react";
 import UserMenu from "./UserMenu";
 
@@ -9,20 +11,19 @@ const Nav = () => {
 
   return (
     <Space>
+      <ModeToggle />
+
       {!isAuth ? (
-        <Button
-          className="login-btn"
-          type="default"
-          icon={<KeyRound />}
-          onClick={openModal}
-        />
+        <Button size="icon" onClick={openModal}>
+          <KeyRound className="h-[1.2rem] w-[1.2rem]" />
+        </Button>
       ) : (
         <UserMenu />
       )}
 
-      <Badge count={1} size="default">
-        <Button className="login-btn" icon={<ShoppingBag />} type="default" />
-      </Badge>
+      <Button size="icon" variant="outline" badge={1}>
+        <ShoppingBag className="h-[1.2rem] w-[1.2rem]" />
+      </Button>
     </Space>
   );
 };

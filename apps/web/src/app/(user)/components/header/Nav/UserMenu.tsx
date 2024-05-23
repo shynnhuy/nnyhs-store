@@ -2,6 +2,7 @@ import { AuthAPI } from "@/api";
 import { useStore } from "@/store";
 import { useMutation } from "@tanstack/react-query";
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -11,7 +12,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@ui/components/";
-import { Button, notification } from "antd";
+import { notification } from "antd";
 import {
   CreditCard,
   LayoutDashboard,
@@ -37,7 +38,9 @@ const UserMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button type="default" className="login-btn" icon={<User />} />
+        <Button variant="outline" size="icon">
+          <User className="h-[1.2rem] w-[1.2rem]" />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

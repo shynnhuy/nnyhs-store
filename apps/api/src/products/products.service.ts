@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateCategoryDto } from './dto';
+import { CreateCategoryDto, QueryCategoryDto } from './dto';
 import { QueryProjectsDto } from './dto/query-project.dto';
 import { Prisma } from '@prisma/client';
 
@@ -10,8 +10,12 @@ import { Prisma } from '@prisma/client';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAllCategories() {
-    const res = await this.prisma.category.paginate();
+  async getAllCategories({ limit, page }: QueryCategoryDto) {
+    console.log('page, limit', page, limit);
+    const res = await this.prisma.category.paginate({
+      limit: Number(limit),
+      page: Number(page),
+    });
     return { success: true, result: res.items, meta: res.meta };
   }
 

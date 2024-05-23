@@ -22,40 +22,51 @@ export class TransformationInterceptor<T>
   ): Observable<Response<T>> {
     const statusCode = context.switchToHttp().getResponse().statusCode;
     const path = context.switchToHttp().getRequest().url;
-
     return next.handle().pipe(
-      map((data) => {
-        let defaultResponse: Response<T> = {
-          message: data && 'message' in data ? data.message : 'Successfully',
-          success: data && 'success' in data ? data.success : true,
-          timestamps: new Date(),
-          statusCode,
-          path,
-          error: null,
-        };
-
-        if (data && 'result' in data) {
-          if ('items' in data.result && 'meta' in data.result) {
-            defaultResponse = {
-              ...defaultResponse,
-              result: data.result.items,
-              meta: data.result.meta,
-            };
-          } else {
-            defaultResponse = {
-              ...defaultResponse,
-              result: data.result,
-            };
-          }
-        } else {
-          defaultResponse = {
-            ...defaultResponse,
-            result: data,
-          };
-        }
-
-        return defaultResponse;
-      }),
+      map((data) => ({
+        message: data && 'message' in data ? data.message : 'Successfully',
+        success: data && 'success' in data ? data.success : true,
+        timestamps: new Date(),
+        statusCode,
+        path,
+        error: null,
+        result: data.result,
+        meta: data.meta,
+      })),
     );
+    // return next.handle().pipe(
+    //   map((data) => {
+    //     let defaultResponse: Response<T> = {
+    //       message: data && 'message' in data ? data.message : 'Successfully',
+    //       success: data && 'success' in data ? data.success : true,
+    //       timestamps: new Date(),
+    //       statusCode,
+    //       path,
+    //       error: null,
+    //     };
+    //     console.log('data', data);
+    //     if (data && 'result' in data) {
+    //       if ('items' in data.result && 'meta' in data) {
+    //         defaultResponse = {
+    //           ...defaultResponse,
+    //           result: data.result.items,
+    //           meta: data.result.meta,
+    //         };
+    //       } else {
+    //         defaultResponse = {
+    //           ...defaultResponse,
+    //           result: data.result,
+    //         };
+    //       }
+    //     } else {
+    //       defaultResponse = {
+    //         ...defaultResponse,
+    //         result: data,
+    //       };
+    //     }
+
+    //     return defaultResponse;
+    //   }),
+    // );
   }
 }

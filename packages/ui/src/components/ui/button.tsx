@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -40,6 +40,7 @@ export interface ButtonProps
   asChild?: boolean;
   loading?: boolean;
   prefixIcon?: React.ReactNode;
+  badge?: number;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -51,6 +52,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       asChild = false,
       loading = false,
       prefixIcon: Icon,
+      badge,
       ...props
     },
     ref
@@ -63,6 +65,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
         disabled={loading || props.disabled}
       >
+        {badge && badge > 0 ? (
+          <sup
+            className="rounded-full absolute top-0 end-0 translate-x-1/2 -translate-y-1/2 w-5 h-5 text-center
+                       flex items-center justify-center bg-secondary dark:text-white text-black font-semibold shadow-[0_0_0_1px_#4b4144] dark:shadow-[0_0_0_1px_#fff]"
+          >
+            {badge}
+          </sup>
+        ) : null}
         {loading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (

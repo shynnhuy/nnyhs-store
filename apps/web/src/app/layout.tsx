@@ -1,6 +1,7 @@
 import { QueryProvider } from "@/components/QueryProvider";
 import StyledComponentsRegistry from "@/lib/registry";
 import AppProvider from "@/provider/AppProvider";
+import { ThemeProvider } from "@/provider/ThemeProvider";
 import { inter } from "@/utils/fonts";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "@repo/ui/global.css";
@@ -19,23 +20,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AntdRegistry>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: "rgb(233, 69, 96)",
-            },
-          }}
-        >
-          <QueryProvider>
-            <AppProvider>
-              <StyledComponentsRegistry>
-                <body className={inter.className}>{children}</body>
-              </StyledComponentsRegistry>
-            </AppProvider>
-          </QueryProvider>
-        </ConfigProvider>
-      </AntdRegistry>
+      <body className={inter.className}>
+        <AntdRegistry>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: "rgb(233, 69, 96)",
+                },
+              }}
+            >
+              <QueryProvider>
+                <AppProvider>
+                  <StyledComponentsRegistry>
+                    {children}
+                  </StyledComponentsRegistry>
+                </AppProvider>
+              </QueryProvider>
+            </ConfigProvider>
+          </ThemeProvider>
+        </AntdRegistry>
+      </body>
     </html>
   );
 }

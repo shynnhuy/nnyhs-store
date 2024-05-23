@@ -5,8 +5,8 @@ import { inter } from "@/utils/fonts";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "NnyhS Store ACP",
-  description: "Private page for NnyhS Store ACP",
+  title: "NnyhS Store",
+  description: "NnyhS Store",
 };
 
 export default function RootLayout({

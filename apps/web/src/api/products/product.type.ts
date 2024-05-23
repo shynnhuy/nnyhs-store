@@ -1,4 +1,7 @@
-export type TGetCategories = {};
+export type TGetCategories = {
+  limit: number;
+  page: number;
+};
 
 export type TCategory = {
   code: string;
