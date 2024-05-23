@@ -1,18 +1,3 @@
-export type PaginationData = {
-  page?: number;
-  limit?: number;
-};
-
-/**
- * Proxy functions
- *
- * used to create custom methods for prisma models
- */
-export type ProxyFunctions = {
-  findMany: (params: unknown, pagination: PaginationData) => Promise<any>;
-  count: (params: unknown) => Promise<number>;
-};
-
 export type PrismaModel = {
   [k in 'findMany' | 'count']: CallableFunction;
 };
@@ -63,11 +48,6 @@ export type CursorPaginationMeta = {
   hasNextPage: boolean;
   startCursor: string | null;
   endCursor: string | null;
-};
-
-export type Paginated<T extends boolean> = {
-  items: unknown;
-  meta: PageNumberPaginationMeta<T>;
 };
 
 export type Pagination = {

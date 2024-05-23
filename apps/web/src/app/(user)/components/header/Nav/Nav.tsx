@@ -14,7 +14,7 @@ const Nav = () => {
       <ModeToggle />
 
       {!isAuth ? (
-        <Button size="icon" onClick={openModal}>
+        <Button variant="outline" size="icon" onClick={openModal}>
           <KeyRound className="h-[1.2rem] w-[1.2rem]" />
         </Button>
       ) : (

@@ -1,6 +1,6 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
-import { PageNumberPaginationMeta } from 'src/lib/pagination/type';
+import { PageNumberPaginationMeta } from 'src/lib/pagination/types';
 
 export interface Response<T> {
   message: string;

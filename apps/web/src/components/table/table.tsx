@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@ui/lib/utils";
 import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
 import {
@@ -74,11 +75,10 @@ function StoreTable<TData>({
               </TableRow>
             )}
           </TableBody>
-
-          <TableFooter>
-            <StoreTablePagination table={table} />
-          </TableFooter>
         </Table>
+      </div>
+      <div className="flex flex-col gap-2.5">
+        <StoreTablePagination table={table} />
       </div>
     </div>
   );

@@ -7,3 +7,4 @@ export * from "./ui/input";
 export * from "./ui/spinner";
 export * from "./ui/pagination";
 export * from "./ui/select";
+export * from "./ui/checkbox";

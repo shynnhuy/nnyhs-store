@@ -2,6 +2,7 @@ import { type Table } from "@tanstack/react-table";
 
 import {
   Pagination,
+  PaginationButton,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
@@ -30,29 +31,34 @@ export function StoreTablePagination<TData>({
   );
 
   return (
-    <Pagination className="m-2">
+    <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" onClick={() => table.previousPage()} />
+          <PaginationPrevious
+            disabled={!table.getCanPreviousPage()}
+            onClick={() => table.previousPage()}
+          />
         </PaginationItem>
 
         {listPage.map((page) => (
           <PaginationItem key={page}>
-            <PaginationLink
-              href="#"
+            <PaginationButton
               isActive={table.getState().pagination.pageIndex + 1 === page}
             >
               {page}
-            </PaginationLink>
+            </PaginationButton>
           </PaginationItem>
         ))}
 
-        <PaginationItem>
+        {/* <PaginationItem>
           <PaginationEllipsis />
-        </PaginationItem>
+        </PaginationItem> */}
 
         <PaginationItem>
-          <PaginationNext href="#" onClick={() => table.nextPage()} />
+          <PaginationNext
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          />
         </PaginationItem>
 
         <PaginationItem>

@@ -21,10 +21,10 @@ export const Products: FC<Props> = () => {
           </Link>,
         ]}
       />
-      <div className="w-full mb-4">
+      {/* <div className="w-full mb-4">
         <SearchProduct />
-      </div>
-      <ProductsTable products={[]} />
+      </div> */}
+      <ProductsTable />
     </main>
   );
 };

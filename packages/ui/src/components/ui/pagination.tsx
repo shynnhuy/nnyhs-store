@@ -7,7 +7,7 @@ import {
 } from "@radix-ui/react-icons";
 
 import { cn } from "@ui/lib/utils";
-import { ButtonProps, buttonVariants } from "@ui/components/ui/button";
+import { Button, ButtonProps, buttonVariants } from "@ui/components/ui/button";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
@@ -64,35 +64,63 @@ const PaginationLink = ({
 );
 PaginationLink.displayName = "PaginationLink";
 
+type PaginationButtonProps = {
+  isActive?: boolean;
+} & Pick<ButtonProps, "size"> &
+  React.ComponentProps<typeof Button>;
+
+const PaginationButton = ({
+  className,
+  isActive,
+  size = "icon",
+  ...props
+}: PaginationButtonProps) => (
+  <Button
+    // aria-current={isActive ? "page" : undefined}
+    disabled={isActive}
+    className={cn(
+      buttonVariants({
+        variant: isActive ? "secondary" : "outline",
+        size,
+      }),
+      className
+    )}
+    {...props}
+  />
+);
+PaginationButton.displayName = "PaginationButton";
+
 const PaginationPrevious = ({
   className,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) => (
-  <PaginationLink
+}: React.ComponentProps<typeof PaginationButton>) => (
+  <PaginationButton
     aria-label="Go to previous page"
     size="default"
     className={cn("gap-1 pl-2.5", className)}
+    variant={"outline"}
     {...props}
   >
     <ChevronLeftIcon className="h-4 w-4" />
     <span>Previous</span>
-  </PaginationLink>
+  </PaginationButton>
 );
 PaginationPrevious.displayName = "PaginationPrevious";
 
 const PaginationNext = ({
   className,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) => (
-  <PaginationLink
+}: React.ComponentProps<typeof PaginationButton>) => (
+  <PaginationButton
     aria-label="Go to next page"
     size="default"
     className={cn("gap-1 pr-2.5", className)}
+    variant={"outline"}
     {...props}
   >
     <span>Next</span>
     <ChevronRightIcon className="h-4 w-4" />
-  </PaginationLink>
+  </PaginationButton>
 );
 PaginationNext.displayName = "PaginationNext";
 
@@ -115,6 +143,7 @@ export {
   Pagination,
   PaginationContent,
   PaginationLink,
+  PaginationButton,
   PaginationItem,
   PaginationPrevious,
   PaginationNext,

@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Spinner } from "@ui/components";
+import { formatDate } from "date-fns";
 import { FC, useMemo, useState } from "react";
 
 type Props = {
@@ -48,6 +49,12 @@ const CategoriesTable: FC<Props> = () => {
         accessorKey: "code",
         header: () => "Category code",
         footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "createdAt",
+        header: () => "Date created",
+        footer: (props) => props.column.id,
+        cell: (info) => formatDate(info.getValue() as string, "dd/MM/yyyy"),
       },
     ],
     []

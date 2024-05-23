@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { resetOrdering, resetSelection } from '../pagination/helper';
-import { Pagination, PrismaModel, PrismaQuery } from '../pagination/type';
+import { Pagination, PrismaModel, PrismaQuery } from '../pagination/types';
 
 const paginate = async (
   model: PrismaModel,

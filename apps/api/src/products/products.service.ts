@@ -11,12 +11,12 @@ export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getAllCategories({ limit, page }: QueryCategoryDto) {
-    console.log('page, limit', page, limit);
-    const res = await this.prisma.category.paginate({
-      limit: Number(limit),
-      page: Number(page),
+    const { items, meta } = await this.prisma.category.paginate().withPages({
+      limit: limit ?? 10,
+      page: page ?? 1,
     });
-    return { success: true, result: res.items, meta: res.meta };
+
+    return { success: true, result: items, meta: meta };
   }
 
   async createCategory(data: CreateCategoryDto) {

@@ -28,7 +28,7 @@ export class ProductsController {
 
   @Public()
   @Get('category')
-  getAllCategories(@Query() query: QueryCategoryDto) {
+  getAllCategories(@Param() query: QueryCategoryDto) {
     return this.productsService.getAllCategories(query);
   }
 
