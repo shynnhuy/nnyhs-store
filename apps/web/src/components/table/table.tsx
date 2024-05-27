@@ -1,11 +1,11 @@
 "use client";
+
 import { cn } from "@ui/lib/utils";
 import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -14,11 +14,13 @@ import { StoreTablePagination } from "./pagination";
 
 interface Props<TData> extends React.HtmlHTMLAttributes<HTMLDivElement> {
   table: TanstackTable<TData>;
+  showSelected?: boolean;
 }
 
 function StoreTable<TData>({
   table,
   className,
+  showSelected = false,
   children,
   ...props
 }: Props<TData>) {
@@ -77,8 +79,19 @@ function StoreTable<TData>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col gap-2.5">
-        <StoreTablePagination table={table} />
+
+      <div className="flex items-center justify-end space-x-2 py-4">
+        {showSelected ? (
+          <div className="flex-1 text-sm text-muted-foreground">
+            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
+        ) : (
+          <div />
+        )}
+        <div className="space-x-2">
+          <StoreTablePagination table={table} />
+        </div>
       </div>
     </div>
   );

@@ -7,8 +7,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Spinner } from "@ui/components";
+import { Button, Spinner } from "@ui/components";
 import { formatDate } from "date-fns";
+import { ArrowUpDown } from "lucide-react";
 import { FC, useMemo, useState } from "react";
 
 type Props = {
@@ -52,7 +53,19 @@ const CategoriesTable: FC<Props> = () => {
       },
       {
         accessorKey: "createdAt",
-        header: () => "Date created",
+        header: ({ column }) => {
+          return (
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Date created
+              <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+          );
+        },
         footer: (props) => props.column.id,
         cell: (info) => formatDate(info.getValue() as string, "dd/MM/yyyy"),
       },

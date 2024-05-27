@@ -8,3 +8,6 @@ export * from "./ui/spinner";
 export * from "./ui/pagination";
 export * from "./ui/select";
 export * from "./ui/checkbox";
+export * from "./ui/dialog";
+export * from "./ui/drawer";
+export * from "./ui/modal";

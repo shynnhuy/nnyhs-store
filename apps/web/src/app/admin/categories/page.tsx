@@ -10,7 +10,7 @@ const CategoriesPage = () => {
       <Header
         title="Categories"
         actions={[
-          <Link key="create-category" href="/admin/products/create">
+          <Link key="create-category" href="/admin/categories/create">
             <Button variant="default">Create Category</Button>
           </Link>,
         ]}

@@ -10,6 +10,7 @@ type AuthState = {
 };
 
 type AuthActions = {
+  onChangeModal: (state: boolean) => void;
   openModal: () => void;
   closeModal: () => void;
   loggedIn: (data: { user: TUser; tokens: TTokens }) => void;
@@ -32,6 +33,7 @@ export const createAuthSlice: StateCreator<
   AuthSlice
 > = (set) => ({
   ...initialState,
+  onChangeModal: (open) => set({ open }),
   openModal: () => set({ open: true }),
   closeModal: () => set({ open: false }),
   loggedIn: ({ user, tokens }) =>
