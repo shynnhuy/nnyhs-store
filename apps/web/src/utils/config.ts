@@ -1,6 +1,7 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 export const config = {
-  BASE_URL: process.env["BASE_URL"] || "http://localhost:3100/api/v1",
+  BASE_URL: process.env["BASE_URL"] || "http://localhost:3000/api",
+  API_URL: process.env["API_URL"] || "http://localhost:3100/api/v1",
   JWT_ACCESS_TOKEN_SECRET: process.env["NEXT_PUBLIC_JWT_ACCESS_TOKEN_SECRET"],
   JWT_ACCESS_TOKEN_EXPIRATION_TIME:
     process.env["NEXT_PUBLIC_JWT_ACCESS_TOKEN_EXPIRATION_TIME"] || "60 * 15",
