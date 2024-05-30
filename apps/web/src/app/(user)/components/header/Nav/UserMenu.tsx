@@ -2,6 +2,7 @@ import { AuthAPI } from "@/api";
 import { useStore } from "@/store";
 import { useMutation } from "@tanstack/react-query";
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -11,12 +12,20 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@ui/components/";
-import { Button, notification } from "antd";
-import { CreditCard, Loader2, LogOut, Settings, User } from "lucide-react";
+import { notification } from "antd";
+import {
+  CreditCard,
+  LayoutDashboard,
+  Loader2,
+  LogOut,
+  Settings,
+  User,
+} from "lucide-react";
 import Link from "next/link";
+import { Fragment } from "react";
 
 const UserMenu = () => {
-  const { logOut } = useStore();
+  const { isAdmin, logOut } = useStore();
   const { mutate: logout, isPending } = useMutation({
     mutationFn: AuthAPI.logout,
     onSuccess: () => {
@@ -28,8 +37,10 @@ const UserMenu = () => {
   });
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button type="default" className="login-btn" icon={<User />} />
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <User className="h-[1.2rem] w-[1.2rem]" />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -54,6 +65,21 @@ const UserMenu = () => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
+
+        {isAdmin ? (
+          <Fragment>
+            <DropdownMenuGroup>
+              <Link href="/admin">
+                <DropdownMenuItem>
+                  <LayoutDashboard className="mr-2 h-4 w-4" />
+                  <span>Admin</span>
+                  <DropdownMenuShortcut>⇧⌘A</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </Link>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+          </Fragment>
+        ) : null}
 
         <DropdownMenuItem disabled={isPending} onClick={() => logout()}>
           {isPending ? (

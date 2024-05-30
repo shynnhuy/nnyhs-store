@@ -13,7 +13,7 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateCategoryDto } from './dto';
+import { CreateCategoryDto, QueryCategoryDto } from './dto';
 import { Public, Roles } from 'src/shared/decorators';
 import { UserRoles } from 'src/shared/schema/users';
 import { RolesGuard } from 'src/shared/guards/role.guard';
@@ -28,8 +28,8 @@ export class ProductsController {
 
   @Public()
   @Get('category')
-  getAllCategories() {
-    return this.productsService.getAllCategories();
+  getAllCategories(@Param() query: QueryCategoryDto) {
+    return this.productsService.getAllCategories(query);
   }
 
   @Roles(UserRoles.ADMIN)

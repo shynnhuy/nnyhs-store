@@ -1,18 +1,22 @@
-import axios from "axios";
-import { APIService } from "..";
+import { APIService, NextService } from "..";
 import { TResponse } from "../api.type";
 import {
   TLoginParams,
   TLoginResponse,
   TRegisterParams,
   TTokens,
+  TUser,
   TVerifyEmail,
 } from "./auth.type";
 
 export const AuthAPI = {
+  getMe: async () => {
+    const res = await APIService.get<TUser>("/users/me");
+    return res;
+  },
   auth: async (loginParams: TLoginParams) => {
-    const res = await axios.post<TResponse<TLoginResponse>>(
-      "/api/auth/login",
+    const res = await NextService.post<TResponse<TLoginResponse>>(
+      "/auth/login",
       loginParams
     );
     return res;
@@ -35,8 +39,8 @@ export const AuthAPI = {
   resendOTP: async () => {},
   refreshToken: async () => APIService.get<TTokens>("/auth/refresh"),
   refreshClientToken: async (params: TTokens) =>
-    axios.post("/api/auth/refresh", params),
+    NextService.post("/auth/refresh", params),
   logout: async () => {
-    return axios.post("/api/auth/logout");
+    return NextService.post("/auth/logout");
   },
 };

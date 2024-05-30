@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const StyledHeader = styled.header`
   background: var(--bg-white);
   box-shadow: -1px 15px 17px -8px rgba(0, 0, 0, 0.1);
-  height: 8vh;
+  height: 60px;
 
   display: flex;
   align-items: center;

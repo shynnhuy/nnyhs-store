@@ -33,7 +33,7 @@ export type TUser = {
   otp: string;
   otpExpiryTime: string;
   refreshToken: string;
-  role: string;
+  role: ERole;
   enable2FA: boolean;
   twoFactorAuthenticationSecret: string;
 };
