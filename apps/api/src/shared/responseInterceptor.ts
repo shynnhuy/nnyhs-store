@@ -22,16 +22,17 @@ export class TransformationInterceptor<T>
   ): Observable<Response<T>> {
     const statusCode = context.switchToHttp().getResponse().statusCode;
     const path = context.switchToHttp().getRequest().url;
+
     return next.handle().pipe(
-      map((data) => ({
+      map((data: Response<T>) => ({
         message: data && 'message' in data ? data.message : 'Successfully',
         success: data && 'success' in data ? data.success : true,
         timestamps: new Date(),
         statusCode,
         path,
         error: null,
-        result: data.result,
-        meta: data.meta,
+        result: data?.result ?? undefined,
+        meta: data?.meta ?? undefined,
       })),
     );
     // return next.handle().pipe(

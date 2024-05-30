@@ -129,4 +129,5 @@ enum AuthProvider {
   EMAIL
   GOOGLE
   FACEBOOK
+  GITHUB
 }

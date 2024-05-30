@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
+import { Response } from 'express';
 
 export interface HttpExceptionResponse {
   statusCode: number;
@@ -21,10 +22,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     this.httpAdapterHost = httpAdapterHost;
   }
 
-  catch(exception: unknown, host: ArgumentsHost): void {
+  catch(exception: HttpException, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
 
     const ctx = host.switchToHttp();
+
+    const response = ctx.getResponse<Response>();
 
     const httpStatus =
       exception instanceof HttpException
@@ -50,6 +53,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
       errorResponse: exceptionResponse as HttpExceptionResponse,
     };
 
-    httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+    response.status(httpStatus).json(responseBody);
   }
 }

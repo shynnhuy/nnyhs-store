@@ -158,6 +158,21 @@ export const AuthPopup = () => {
               )}{" "}
               Google
             </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "mt-4 bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2"
+              )}
+              target="_blank"
+              href="http://localhost:3100/api/v1/auth/github"
+            >
+              {isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.Github className="mr-2 h-4 w-4" />
+              )}{" "}
+              Github
+            </Link>
 
             <div className="text-center text-muted-foreground text-[12px] font-semibold mt-[19px] mb-[19px]">
               Don&apos;t have an account?{" "}

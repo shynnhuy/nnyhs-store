@@ -2266,6 +2266,15 @@
   dependencies:
     "@types/node" "*"
 
+"@types/passport-github@^1.1.12":
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/@types/passport-github/-/passport-github-1.1.12.tgz#85907077295c086af26c995f3865a2eb36bbda1f"
+  integrity sha512-VJpMEIH+cOoXB694QgcxuvWy2wPd1Oq3gqrg2Y9DMVBYs9TmH9L14qnqPDZsNMZKBDH+SvqRsGZj9SgHYeDgcA==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+    "@types/passport-oauth2" "*"
+
 "@types/passport-google-oauth20@^2.0.16":
   version "2.0.16"
   resolved "https://registry.yarnpkg.com/@types/passport-google-oauth20/-/passport-google-oauth20-2.0.16.tgz#9e39c1203d56496d89392538e6109626e253bc28"

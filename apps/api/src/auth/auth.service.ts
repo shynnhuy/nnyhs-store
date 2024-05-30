@@ -341,4 +341,29 @@ export class AuthService {
 
     return { accessToken, refreshToken };
   }
+
+  async oauthLogin(request: RequestWithUser) {
+    const { user } = request;
+    if (user.enable2FA) {
+      console.log('enable2FA----');
+      // TODO: SEND OTP
+      // const otpResponse = await this.termiiService.sendOtp(
+      //   req.user.phoneNumber,
+      // );
+      // data = { otpResponse };
+    } else {
+      const accessTokenCookie = this.getCookieWithJwtAccessToken(user.id);
+      const { cookie: refreshTokenCookie, token: refreshToken } =
+        this.getCookieWithJwtRefreshToken(user.id);
+
+      await this.userService.updateRefreshToken(user.id, refreshToken);
+
+      request.res.setHeader('Set-Cookie', [
+        accessTokenCookie,
+        refreshTokenCookie,
+      ]);
+    }
+
+    return request.res.redirect(`${this.configService.get('app.clientUrl')}`);
+  }
 }

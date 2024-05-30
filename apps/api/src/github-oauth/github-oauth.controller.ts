@@ -1,10 +1,11 @@
 import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
-import { GithubOauthService } from './github-oauth.service';
+import { AuthService } from 'src/auth/auth.service';
+import { RequestWithUser } from 'src/auth/types/request-with-user';
 import { GithubOauthGuard } from 'src/shared/guards/github.guard';
 
 @Controller('auth/github')
 export class GithubOauthController {
-  constructor(private readonly githubOauthService: GithubOauthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Get()
   @UseGuards(GithubOauthGuard)
@@ -14,9 +15,7 @@ export class GithubOauthController {
 
   @Get('callback')
   @UseGuards(GithubOauthGuard)
-  async authCallback(@Req() req) {
-    const user = req.user;
-    console.log('user', user);
-    return { result: user };
+  async authCallback(@Req() req: RequestWithUser) {
+    return this.authService.oauthLogin(req);
   }
 }

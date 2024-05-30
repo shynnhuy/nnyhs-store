@@ -52,6 +52,8 @@ import { TwoFactorService } from './two-factor/two-factor.service';
   ],
   exports: [
     AuthService,
+    UsersService,
+    JwtModule,
     MongooseModule.forFeature([
       {
         name: Users.name,

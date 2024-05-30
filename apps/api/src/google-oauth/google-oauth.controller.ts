@@ -39,10 +39,10 @@ export class GoogleOauthController {
 
       await this.userService.updateRefreshToken(user.id, refreshToken);
 
-      req.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+      return req.res
+        .setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie])
+        .redirect(`${this.configService.get('app.clientUrl')}`);
     }
-
-    return req.res.redirect(`${this.configService.get('app.clientUrl')}`);
   }
 
   // @Get('callback')
