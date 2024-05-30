@@ -9,6 +9,7 @@ import {
   appConfig,
   cloudinaryConfig,
   googleConfig,
+  githubConfig,
 } from './config';
 import { ImageModule } from './image/image.module';
 import { OrdersModule } from './orders/orders.module';
@@ -18,6 +19,7 @@ import { HttpExceptionFilter } from './shared/httpExceptionFilter';
 import { UsersModule } from './users/users.module';
 import { GoogleOauthModule } from './google-oauth/google-oauth.module';
 import { PaymentModule } from './payment/payment.module';
+import { GithubOauthModule } from './github-oauth/github-oauth.module';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { PaymentModule } from './payment/payment.module';
         databaseConfig,
         cloudinaryConfig,
         googleConfig,
+        githubConfig,
       ],
     }),
     MongooseModule.forRootAsync({
@@ -49,6 +52,7 @@ import { PaymentModule } from './payment/payment.module';
     ImageModule,
     GoogleOauthModule,
     PaymentModule,
+    GithubOauthModule,
   ],
   controllers: [],
   providers: [

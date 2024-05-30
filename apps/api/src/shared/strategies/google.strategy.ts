@@ -41,9 +41,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         otp: '',
         otpExpiryTime: new Date(),
         password: 'random_password',
+        isVerified: true,
         provider: [AuthProvider.GOOGLE],
       },
-      update: {},
+      update: {
+        email: user.email,
+        isVerified: true,
+        provider: [AuthProvider.GOOGLE],
+      },
     });
     done(null, _user);
   }

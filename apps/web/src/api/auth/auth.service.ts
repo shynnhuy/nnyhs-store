@@ -1,4 +1,3 @@
-import axios from "axios";
 import { APIService, NextService } from "..";
 import { TResponse } from "../api.type";
 import {
@@ -6,10 +5,15 @@ import {
   TLoginResponse,
   TRegisterParams,
   TTokens,
+  TUser,
   TVerifyEmail,
 } from "./auth.type";
 
 export const AuthAPI = {
+  getMe: async () => {
+    const res = await APIService.get<TUser>("/users/me");
+    return res;
+  },
   auth: async (loginParams: TLoginParams) => {
     const res = await NextService.post<TResponse<TLoginResponse>>(
       "/auth/login",

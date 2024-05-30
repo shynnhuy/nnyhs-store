@@ -5,9 +5,11 @@ import { Button } from "@ui/components";
 import { Space } from "antd";
 import { KeyRound, ShoppingBag } from "lucide-react";
 import UserMenu from "./UserMenu";
+import { useAuthModal } from "@/components/auth/popup";
 
 const Nav = () => {
-  const { isAuth, openModal } = useStore();
+  const { isAuth } = useStore();
+  const { openModal } = useAuthModal();
 
   return (
     <Space>

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/provider/ThemeProvider";
 import { inter } from "@/utils/fonts";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider } from "antd";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "NnyhS Store - Home page",
@@ -21,6 +22,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("Authentication")?.value;
+  const refreshToken = cookieStore.get("Refresh")?.value;
+
   return (
     <html suppressHydrationWarning lang="en">
       <body className={inter.className}>
@@ -39,7 +44,16 @@ export default function RootLayout({
               }}
             >
               <QueryProvider>
-                <AppProvider>
+                <AppProvider
+                  initialTokens={
+                    accessToken && refreshToken
+                      ? {
+                          accessToken,
+                          refreshToken,
+                        }
+                      : undefined
+                  }
+                >
                   <StyledComponentsRegistry>
                     {children}
                   </StyledComponentsRegistry>

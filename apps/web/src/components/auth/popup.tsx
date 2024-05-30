@@ -11,6 +11,30 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import styled from "styled-components";
 import { Icons } from "../Icons";
+import { create } from "zustand";
+
+type PopupState = {
+  open: boolean;
+};
+
+type PopupActions = {
+  onChangeModal: (state: boolean) => void;
+  openModal: () => void;
+  closeModal: () => void;
+};
+
+export type PopupSlide = PopupState & PopupActions;
+
+const initialState: PopupState = {
+  open: false,
+};
+
+export const useAuthModal = create<PopupSlide>((set) => ({
+  ...initialState,
+  onChangeModal: (open) => set({ open }),
+  openModal: () => set({ open: true }),
+  closeModal: () => set({ open: false }),
+}));
 
 type FormState = {
   email: string;
@@ -47,7 +71,8 @@ const StyledModal = styled(Modal)`
 
 export const AuthPopup = () => {
   const [form] = Form.useForm<FormState>();
-  const { open, onChangeModal, closeModal, loggedIn } = useStore();
+  const { open, onChangeModal, closeModal } = useAuthModal();
+  const { loggedIn } = useStore();
   const { mutate, isPending } = useLoginMutation();
 
   // const loginWithGoogle = async () => {

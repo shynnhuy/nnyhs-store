@@ -15,6 +15,27 @@ export class UsersService {
     @Inject(UserRepository) private readonly userDB: UserRepository,
     private readonly prisma: PrismaService,
   ) {}
+
+  async getMe(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        isVerified: true,
+        enable2FA: true,
+      },
+    });
+
+    return {
+      result: user,
+      success: true,
+      message: 'User fetched successfully',
+    };
+  }
+
   async create(createUserDto: CreateUserDto) {
     try {
       if (createUserDto.role === UserRoles.ADMIN) {
