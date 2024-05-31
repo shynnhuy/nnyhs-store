@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
@@ -20,6 +20,7 @@ import { UsersModule } from './users/users.module';
 import { GoogleOauthModule } from './google-oauth/google-oauth.module';
 import { PaymentModule } from './payment/payment.module';
 import { GithubOauthModule } from './github-oauth/github-oauth.module';
+import { LoggerMiddleware } from './shared/middleware/logger.middleware';
 
 @Module({
   imports: [
@@ -62,4 +63,8 @@ import { GithubOauthModule } from './github-oauth/github-oauth.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

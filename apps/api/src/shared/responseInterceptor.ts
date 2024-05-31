@@ -24,14 +24,14 @@ export class TransformationInterceptor<T>
     const path = context.switchToHttp().getRequest().url;
 
     return next.handle().pipe(
-      map((data: Response<T>) => ({
+      map((data) => ({
         message: data && 'message' in data ? data.message : 'Successfully',
         success: data && 'success' in data ? data.success : true,
         timestamps: new Date(),
         statusCode,
         path,
         error: null,
-        result: data?.result ?? undefined,
+        result: data?.result ?? data ?? undefined,
         meta: data?.meta ?? undefined,
       })),
     );

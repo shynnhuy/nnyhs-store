@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -358,12 +359,11 @@ export class AuthService {
 
       await this.userService.updateRefreshToken(user.id, refreshToken);
 
-      request.res.setHeader('Set-Cookie', [
-        accessTokenCookie,
-        refreshTokenCookie,
-      ]);
-    }
+      request.res
+        .setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie])
+        .redirect(`${this.configService.get('app.clientUrl')}`);
 
-    return request.res.redirect(`${this.configService.get('app.clientUrl')}`);
+      return HttpStatus.OK;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { TransformationInterceptor } from './shared/responseInterceptor';
+// import { TransformationInterceptor } from './shared/responseInterceptor';
 import cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
@@ -18,7 +18,7 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.setGlobalPrefix(config.get('app.appPrefix'));
-  app.useGlobalInterceptors(new TransformationInterceptor());
+  // app.useGlobalInterceptors(new TransformationInterceptor());
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('NnyhS Store API')
