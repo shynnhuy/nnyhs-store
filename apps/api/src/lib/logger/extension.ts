@@ -9,8 +9,10 @@ export const extension = Prisma.defineExtension({
         const start = performance.now();
         const result = await query(args);
         const end = performance.now();
-        const time = end - start;
-        new Logger('Prisma').debug(`${model}.${operation} took ${time}ms`);
+        const time = (end - start) / 1000;
+        new Logger('Prisma').debug(
+          `${model}.${operation} took ${time.toFixed(3)}s`,
+        );
         return result;
       },
     },
