@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { RequestWithUser } from './types/request-with-user';
 import { TokenPayload } from './types/token-payload';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -357,13 +359,9 @@ export class AuthService {
         this.getCookieWithJwtRefreshToken(user.id);
 
       await this.userService.updateRefreshToken(user.id, refreshToken);
-
-      request.res.setHeader('Set-Cookie', [
-        accessTokenCookie,
-        refreshTokenCookie,
-      ]);
+      return request.res
+        .setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie])
+        .redirect(`${this.configService.get('app.clientUrl')}`);
     }
-
-    return request.res.redirect(`${this.configService.get('app.clientUrl')}`);
   }
 }
