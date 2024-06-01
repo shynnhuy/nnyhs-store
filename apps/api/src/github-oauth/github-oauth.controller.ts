@@ -16,6 +16,6 @@ export class GithubOauthController {
   @Get('callback')
   @UseGuards(GithubOauthGuard)
   async authCallback(@Req() req: RequestWithUser) {
-    return this.authService.oauthLogin(req);
+    await this.authService.oauthLogin(req);
   }
 }
