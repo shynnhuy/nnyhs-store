@@ -1,6 +1,6 @@
 "use client";
 
-import { TUser } from "@/api";
+import { TUser } from "@/services";
 import {
   Button,
   Table,

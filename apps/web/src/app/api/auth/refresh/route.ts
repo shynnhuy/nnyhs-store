@@ -1,4 +1,4 @@
-import { TTokens } from "@/api";
+import { TTokens } from "@/services";
 import { config } from "@/utils/config";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";

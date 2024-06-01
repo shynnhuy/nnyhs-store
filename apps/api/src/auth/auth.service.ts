@@ -51,14 +51,14 @@ export class AuthService {
 
     await this.userService.updateRefreshToken(user.id, tokens.refreshToken);
 
-    request.res.setHeader('Set-Cookie', [
-      `Authentication=${tokens.accessToken}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-        'jwt.accessTokenExpirationTime',
-      )}`,
-      `Refresh=${tokens.refreshToken}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-        'jwt.refreshTokenExpirationTime',
-      )}`,
-    ]);
+    // request.res.setHeader('Set-Cookie', [
+    //   `Authentication=${tokens.accessToken}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+    //     'jwt.accessTokenExpirationTime',
+    //   )}`,
+    //   `Refresh=${tokens.refreshToken}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+    //     'jwt.refreshTokenExpirationTime',
+    //   )}`,
+    // ]);
 
     return user.enable2FA
       ? {

@@ -1,4 +1,4 @@
-import { ERole, TTokens, TUser } from "@/api";
+import { ERole, TTokens, TUser } from "@/services";
 import { StateCreator } from "zustand";
 
 type AuthState = {

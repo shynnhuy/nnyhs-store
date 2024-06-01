@@ -1,5 +1,5 @@
-import { TUser } from "@/api";
-import { TResponse } from "@/api/api.type";
+import { TUser } from "@/services";
+import { TResponse } from "@/services/api.type";
 import { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 

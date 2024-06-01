@@ -1,11 +1,10 @@
 "use client";
+import { useRefreshTokenMutation } from "@/mutations/auth";
 import { useStore } from "@/store";
-import { useEffect, useMemo } from "react";
-import { decodeJwt } from "jose";
-import { differenceInMinutes } from "date-fns";
-import { AuthAPI } from "@/api";
-import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
+import { differenceInMinutes } from "date-fns";
+import { decodeJwt } from "jose";
+import { useEffect, useMemo } from "react";
 
 const RefreshTokenJob = () => {
   const { tokens, setTokens } = useStore();
@@ -14,12 +13,7 @@ const RefreshTokenJob = () => {
     [tokens]
   );
 
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      const { data } = await AuthAPI.refreshToken();
-      await AuthAPI.refreshClientToken(data.result);
-      return data.result;
-    },
+  const { mutate } = useRefreshTokenMutation({
     onSuccess: (data) => {
       setTokens(data);
       notification.success({
@@ -34,6 +28,7 @@ const RefreshTokenJob = () => {
       async () => {
         const now = new Date();
         const exp = decoded.exp ? new Date(decoded.exp * 1000) : new Date();
+        console.log("REFERSH TOKEN: --", differenceInMinutes(exp, now) <= 15);
         if (differenceInMinutes(exp, now) <= 15) {
           mutate();
         }

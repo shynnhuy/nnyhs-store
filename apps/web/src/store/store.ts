@@ -12,7 +12,7 @@ export const useStore = create<Store>()(
         ...createAuthSlice(...a),
       })),
       {
-        name: "local-storage",
+        name: "auth-state",
       }
     )
   )

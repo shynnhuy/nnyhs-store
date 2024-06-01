@@ -1,5 +1,5 @@
 "use client";
-import { ProductAPI, TCategory } from "@/api/products";
+import { ProductAPI, TCategory } from "@/services/products";
 import StoreTable from "@/components/table/table";
 import { useQuery } from "@tanstack/react-query";
 import {

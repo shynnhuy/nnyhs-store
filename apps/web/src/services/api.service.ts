@@ -15,7 +15,7 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-export const nextApi = axios.create({
+export const NextService = axios.create({
   baseURL: config.BASE_URL,
   headers: {
     "Content-Type": "application/json",
@@ -94,6 +94,5 @@ export class BaseService extends Axios {
 }
 
 export const APIService = new BaseService(api);
-export const NextService = nextApi;
 
 export default api;

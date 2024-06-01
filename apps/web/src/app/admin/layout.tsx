@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-full bg-gray-50">
+    <div className="h-full">
       <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
         <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
           <div className="flex h-full max-h-screen flex-col gap-2">

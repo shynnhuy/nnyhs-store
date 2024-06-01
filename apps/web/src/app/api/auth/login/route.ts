@@ -1,4 +1,4 @@
-import { AuthAPI } from "@/api";
+import { AuthAPI } from "@/services";
 import { config } from "@/utils/config";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
