@@ -3,15 +3,28 @@ import { useLoginMutation } from "@/mutations/auth";
 import { useStore } from "@/store";
 import clsx from "@/utils/clsx";
 import { kanit } from "@/utils/fonts";
-import { Button, Modal, ModalContent, buttonVariants } from "@ui/components";
+import {
+  Button,
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  Input,
+  Modal,
+  ModalContent,
+  buttonVariants,
+  useToast,
+} from "@ui/components";
 import { cn } from "@ui/lib/utils";
-import { Form, Input, notification } from "antd";
-import FormItem from "antd/es/form/FormItem";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import styled from "styled-components";
 import { Icons } from "../Icons";
 import { create } from "zustand";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type PopupState = {
   open: boolean;
@@ -36,10 +49,10 @@ export const useAuthModal = create<PopupSlide>((set) => ({
   closeModal: () => set({ open: false }),
 }));
 
-type FormState = {
-  email: string;
-  password: string;
-};
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 
 const StyledModal = styled(Modal)`
   width: 100%;
@@ -70,29 +83,34 @@ const StyledModal = styled(Modal)`
 `;
 
 export const AuthPopup = () => {
-  const [form] = Form.useForm<FormState>();
+  const { toast } = useToast();
   const { open, onChangeModal, closeModal } = useAuthModal();
   const { loggedIn } = useStore();
   const { mutate, isPending } = useLoginMutation();
 
-  // const loginWithGoogle = async () => {
-  //   await APIService.get("/auth/google");
-  // };
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const onFinish = (state: FormState) => {
+  const onFinish = (state: z.infer<typeof formSchema>) => {
     mutate(state, {
       onSuccess: async ({ data }) => {
         loggedIn(data.result);
-        notification.success({
-          message: "Success",
+        toast({
+          title: "Success",
           description: "Logged in successfully",
         });
         closeModal();
       },
       onError: (error) => {
-        notification.error({
-          message: "Error",
+        toast({
+          title: "Error",
           description: error.response?.data?.message,
+          variant: "destructive",
         });
       },
     });
@@ -101,12 +119,7 @@ export const AuthPopup = () => {
   return (
     <StyledModal open={open} onOpenChange={onChangeModal}>
       <ModalContent>
-        <Form
-          form={form}
-          onFinish={onFinish}
-          className="login-wrapper"
-          layout="vertical"
-        >
+        <Form {...form}>
           <div className="flex flex-col">
             <div className="title font-semibold">
               Welcome to{" "}
@@ -115,27 +128,38 @@ export const AuthPopup = () => {
             <div className="text-center text-muted-foreground text-[12px] font-semibold">
               Login with email & password
             </div>
-            <FormItem label="Email" name="email">
-              <Input
-                placeholder="example@gmail.com"
-                type="email"
+            <form
+              className="login-wrapper space-y-4"
+              onSubmit={form.handleSubmit(onFinish)}
+            >
+              <FormField
+                control={form.control}
                 name="email"
-                required
-                size="large"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      placeholder="example@gmail.com"
+                      type="email"
+                      {...field}
+                    />
+                  </FormItem>
+                )}
               />
-            </FormItem>
-            <FormItem label="Password" name="password">
-              <Input
-                placeholder="********"
-                type="password"
+              <FormField
+                control={form.control}
                 name="password"
-                required
-                size="large"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <Input placeholder="********" type="password" {...field} />
+                  </FormItem>
+                )}
               />
-            </FormItem>
-            <Button loading={isPending} className="submit" type="submit">
-              Login
-            </Button>
+              <Button loading={isPending} className="w-full" type="submit">
+                Login
+              </Button>
+            </form>
             <div className="relative mt-4">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />

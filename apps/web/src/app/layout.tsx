@@ -1,4 +1,5 @@
 import "@repo/ui/global.css";
+import "./toastify.css";
 import type { Metadata } from "next";
 import { QueryProvider } from "@/components/QueryProvider";
 import StyledComponentsRegistry from "@/lib/registry";

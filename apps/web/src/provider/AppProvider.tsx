@@ -1,6 +1,7 @@
 "use client";
-import { notification } from "antd";
-import React, {
+import RefreshTokenJob from "@/components/RefreshTokenJob";
+import { AuthPopup } from "@/components/auth/popup";
+import {
   FC,
   Fragment,
   PropsWithChildren,
@@ -8,17 +9,16 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import RefreshTokenJob from "@/components/RefreshTokenJob";
-import { AuthPopup } from "@/components/auth/popup";
 
 import RouteLoader from "@/components/route-loader";
-import { AuthAPI, TTokens } from "@/services";
-import { useQuery } from "@tanstack/react-query";
-import { useStore } from "@/store";
-import { decodeJwt } from "jose";
 import { useRefreshTokenMutation } from "@/mutations/auth";
-import { differenceInMinutes } from "date-fns";
+import { AuthAPI, TTokens } from "@/services";
+import { useStore } from "@/store";
+import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@ui/components";
+import { differenceInMinutes } from "date-fns";
+import { decodeJwt } from "jose";
+import { ToastContainer, ToastContainerProps } from "react-toastify";
 
 type Props = {
   initialTokens?: TTokens;
@@ -35,7 +35,7 @@ const AppProvider: FC<PropsWithChildren<Props>> = ({
     queryKey: ["me"],
     queryFn: AuthAPI.getMe,
     enabled:
-      useStore.persist.hasHydrated() &&
+      useStore.persist?.hasHydrated() &&
       !user &&
       !!initialTokens?.accessToken &&
       !!initialTokens?.refreshToken,
@@ -61,17 +61,30 @@ const AppProvider: FC<PropsWithChildren<Props>> = ({
     if (differenceInMinutes(exp, now) <= 5) {
       refreshToken();
     }
-  }, [initialTokens]);
+  }, [initialTokens, refreshToken]);
 
   useEffect(() => {
     if (initialTokens) {
       setTokens(initialTokens);
     }
-  }, [initialTokens]);
+  }, [initialTokens, setTokens]);
 
   useEffect(() => {
     if (data) loggedIn({ user: data.data.result });
   }, [data, loggedIn]);
+
+  const toastConfig = useMemo<ToastContainerProps>(
+    () => ({
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    }),
+    []
+  );
 
   return (
     <Fragment>
@@ -79,6 +92,7 @@ const AppProvider: FC<PropsWithChildren<Props>> = ({
       <RouteLoader />
       <AuthPopup />
       <RefreshTokenJob />
+      <ToastContainer {...toastConfig} />
     </Fragment>
   );
 };
